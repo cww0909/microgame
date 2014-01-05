@@ -1,0 +1,78 @@
+html, body {
+	margin: 0;
+	height: 100%;
+	width: 100%;
+	padding: 0;
+    overflow: hidden;
+}
+
+*:focus{
+	outline: none;
+}
+
+.ui{
+	font-family: Verdana;
+	font-weight: bold;
+	font-style: oblique;
+	font-size: 200%;
+	position: absolute;
+	display: none;
+	cursor: default;
+	padding: 10px 10px 10px 10px;
+	background-color: rgba(0,82,156, 0.8);
+	color: white;
+	border-radius: 10px;
+}
+
+#score{
+	top: 25%;
+	left:30%;	
+}
+
+#planes{
+	top: 33%;
+	left:30%;	
+}
+
+#difficulty{
+	top: 41%;
+	left:30%;
+}
+
+#play{
+	top: 50%;
+	left:45%;
+	height: 50px;
+	width: 120px;
+	background-color: #f0c911;
+	background-image: -webkit-linear-gradient(top, #f0c911, #f2ab1e);
+	background-image: -moz-linear-gradient(top, #f0c911, #f2ab1e);
+	background-image: -ms-linear-gradient(top, #f0c911, #f2ab1e);
+	background-image: -o-linear-gradient(top, #f0c911, #f2ab1e);
+	background-image: linear-gradient(to bottom, #f0c911, #f2ab1e);
+	border-top-left-radius: 37px;
+	border-bottom-right-radius: 37px;
+	color: #c92200;
+	text-align: center;
+}
+
+#play:hover{
+	background-color: #f2ab1e;
+	background-image: -webkit-linear-gradient(top, #f2ab1e, #f0c911);
+	background-image: -moz-linear-gradient(top, #f2ab1e, #f0c911);
+	background-image: -ms-linear-gradient(top, #f2ab1e, #f0c911);
+	background-image: -o-linear-gradient(top, #f2ab1e, #f0c911);
+	background-image: linear-gradient(to bottom, #f2ab1e, #f0c911);
+}
+
+#instructions{
+	top: 80%;
+	left:30%;
+	font-size: 100%;
+	background-color: rgba(0,82,156, 0.5);
+}
+
+#instructions ul{
+	margin: 10px;
+	padding: 0px 10px 0px 10px;	
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>The Micro Game</title>
+
+    <!-- TMG references -->
+    <link href="css/stylesheet.css" rel="stylesheet" />
+    <script class="jquery" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <!-- <script class="jquery" src="js/jquery-1.10.2.min.js"></script> -->
+</head>
+<body>
+	<div id="container">
+		<div id="score" class="ui">High Score: </div>
+		<div id="planes" class="ui">Select Planes: </div>
+		<div id="difficulty" class="ui">Difficulty: </div>
+		<div id="play" class="ui">PLAY</div>
+		<div id="instructions" class="ui">Instructions:
+			<ul>
+				<li>To control a plane: Left click on the plane or use 1, 2, 3. Drag-select works too.</li>
+				<li>To move a plane: Right click on a spot.</li>
+				<li>Last as long as you can.</li>
+			</ul>
+		</div>
+	</div>
+	
+	<!-- load scripts -->	
+	<script type="text/javascript" src="gameLibrary/game.js"></script>
+		<script type="text/javascript" src="js/scaling.js"></script>	
+		<script type="text/javascript" src="gameLibrary/input.js"></script>
+		<script type="text/javascript" src="gameLibrary/enemy.js"></script>
+		<script type="text/javascript" src="gameLibrary/entity.js"></script>
+		<script type="text/javascript" src="gameLibrary/layers.js"></script>
+		<script type="text/javascript" src="gameLibrary/player.js"></script>
+		<script type="text/javascript" src="gameLibrary/background.js"></script>
+		<script type="text/javascript" src="gameLibrary/ui.js"></script>
+</body>
+</html>
