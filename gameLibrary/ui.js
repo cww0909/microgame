@@ -201,6 +201,7 @@ Handles the drawing of the main UI
 				$(".ui").css({
 					"z-index": -1
 				});
+				this.score.css("z-index", this.LAYER_ID+1);
 				game.system.layermanager.clearLayer(this.LAYER_ID);
 				game.system.state = this.state = "running";
 			}
