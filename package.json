@@ -18,9 +18,10 @@
   "homepage": "https://github.com/cww0909/microgame",
   "dependencies": {
     "logfmt": "~0.18.1",
-    "express": "~3.4.7"
+    "express": "~3.4.7",
+    "jQuery": ">=1.7.4"
   },
-  "engines":{
-	"node": "0.10.x"
+  "engines": {
+    "node": "0.10.x"
   }
 }
