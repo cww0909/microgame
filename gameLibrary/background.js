@@ -6,7 +6,7 @@ Handles the drawing of the map and level
 //---------------------------------------------------//
 
 (function ($){
-	var Background = function(layermanager, index){
+	var Background = function(getLayerContext, index){
 		//some constants
 		this.LAYER_ID = game.BACKGROUND;
 		
@@ -15,10 +15,10 @@ Handles the drawing of the map and level
 		this.img_src = ["media/background1.png", "media/background2.png", "media/background3.png"];
 		this.layercontext = null;
 		
-		this.init = function(layermanager, index){
+		this.init = function(getLayerContext, index){
 			this.img = new Image();
 			this.img.src = this.img_src[index];
-			this.layercontext = layermanager.getLayerContext(this.LAYER_ID);
+			this.layercontext = getLayerContext(this.LAYER_ID);
 			//draw when image finish laoding
 			this.img.addEventListener("load", this.draw.bind(this));
 		};
@@ -34,7 +34,7 @@ Handles the drawing of the map and level
 			this.draw();
 		};
 		
-		this.init(layermanager, index);
+		this.init(getLayerContext, index);
 	};
 	
 	//add class to game Namespace

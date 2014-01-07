@@ -6,7 +6,7 @@ Handles the drawing of the main UI
 //---------------------------------------------------//
 
 (function ($){
-	var Interface = function(layermanager, state){
+	var Interface = function(getLayerContext, state){
 		//some constants
 		this.LAYER_ID = game.UI;
 		this.LEFT_CLICK = 1;
@@ -26,8 +26,8 @@ Handles the drawing of the main UI
 		this.difficulties = ["Easy", "Medium", "Hard", "Insane"];
 		this.selected_difficulty = null;
 		
-		this.init = function(layermanager, state){
-			this.layercontext = layermanager.getLayerContext(this.LAYER_ID);
+		this.init = function(getLayerContext, state){
+			this.layercontext = getLayerContext(this.LAYER_ID);
 			this.state = state;
 			this.score = $("#score").css({
 							"display": "block",
@@ -244,7 +244,7 @@ Handles the drawing of the main UI
 			return false;
 		};
 				
-		this.init(layermanager, state);
+		this.init(getLayerContext, state);
 	};
 	
 	//add class to game Namespace

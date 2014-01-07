@@ -73,14 +73,14 @@ var System = function(updateFPS, containerID){
         this.gametick = parseFloat(this.gametick.toFixed(5)); //to fix float errors
         
 		this.layermanager = new game.Layers(containerID);
-		this.inputmanager = new game.Input(containerID, this.layermanager);
-		this.background = new game.Background(this.layermanager, 0); //use background1
+		this.inputmanager = new game.Input(containerID, this.layermanager.getLayerContext);
+		this.background = new game.Background(this.layermanager.getLayerContext, 0); //use background1
 		
 		container.focus();
 		
 		//init ui
 		this.state = "starting";
-		this.ui = new game.Interface(this.layermanager, this.state);
+		this.ui = new game.Interface(this.layermanager.getLayerContext, this.state);
 		
 		//start the game loop
 		var that = this;

@@ -7,7 +7,7 @@ Hooks up event handlers for input.
 //---------------------------------------------------//
 
 (function($){
-	var Input = function(containerID, layermanager){		
+	var Input = function(containerID, getLayerContext){		
 		//some constants
 		this.LAYER_ID = game.CURSOR;
 		this.LEFT_CLICK = 1;
@@ -29,7 +29,7 @@ Hooks up event handlers for input.
 		var topLeftX, topLeftY, height, width;
 			that = this;
 					
-		this.init = function(containerID, layermanager){
+		this.init = function(containerID, getLayerContext){
 			$("#"+containerID).on({
 				mousedown: this.mouse_down.bind(this),
 				mouseup: this.mouse_up.bind(this),
@@ -41,7 +41,7 @@ Hooks up event handlers for input.
 				keydown: this.key_down.bind(this)
 			});
 			
-			this.layercontext = layermanager.getLayerContext(this.LAYER_ID);
+			this.layercontext = getLayerContext(this.LAYER_ID);
 		};	
 		
 		this.reset_style = function(){
@@ -139,7 +139,7 @@ Hooks up event handlers for input.
 			game.system.layermanager.clearLayer(that.LAYER_ID);
 		};
 		
-		this.init(containerID, layermanager);
+		this.init(containerID, getLayerContext);
 	};
 	
     //add class to game namespace
