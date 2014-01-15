@@ -197,6 +197,16 @@ Handles the drawing of the main UI
 					game.system.entities[game.system.entities.length] = game.system.enemies[i];
 					game.system.enemies[i].state = "setup";
 				}
+				
+				//waits for images to load before starting
+				while(true){
+					var imgLoaded = true;
+					for(var i=0; i<game.system.entities.length; i++){
+						imgLoaded = game.system.entities[i].isLoaded && imgLoaded;
+					}
+					if(imgLoaded) break;
+				}
+				
 				//clear ui
 				$(".ui").css({
 					"z-index": -1
