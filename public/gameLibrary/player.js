@@ -76,10 +76,6 @@ Creates a player unit entity that is controllable by the player
 					this.pos.y = this.destination.y;
 					
 				this.pos.angle = this.destination.angle;
-			}else if(this.state == "died"){
-				//if sequence ends set isActive to false
-				if(this.currentframe == this.anim_seq.length*this.anim_speed)
-					this.isActive = false;
 			}
 			
             game.Entity.update_post.apply(this, null);
@@ -118,6 +114,9 @@ Creates a player unit entity that is controllable by the player
 					);
 				this.layercontext.restore();
 				this.currentframe++;
+				//if sequence ends set isActive to false
+				if(this.currentframe == this.anim_seq.length*this.anim_speed)
+					this.isActive = false;
 			}
 		};
 		
