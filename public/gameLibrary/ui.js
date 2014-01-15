@@ -25,6 +25,10 @@ Handles the drawing of the main UI
 		this.difficulty_divs = [];
 		this.difficulties = ["Easy", "Medium", "Hard", "Insane"];
 		this.selected_difficulty = null;
+		this.loading_img = null;
+		this.currentframe = 0;
+		this.frame_x = [];
+		this.anim_speed = 2;
 		
 		this.init = function(getLayerContext, state){
 			this.layercontext = getLayerContext(this.LAYER_ID);
@@ -78,6 +82,13 @@ Handles the drawing of the main UI
 									"display": "block",
 									"z-index": this.LAYER_ID+1	
 								});
+								
+			this.loading_img = new Image();
+			this.loading_img.src = "media/loading.gif";	
+			this.loading_img.width = this.loading_img.height = 128;
+			for(var i=0; i<19; i++){
+				this.frame_x[i] = i * this.loading_img.width;
+			}
 		};
 		
 		this.update = function(){
@@ -88,7 +99,9 @@ Handles the drawing of the main UI
 					});
 					break;
 				case "running":
-					//check if images finish loading
+					break;
+				case "loading":
+					//check if images finish loading before starting game
 					var allLoaded = true;
 					for(var i=0; i<game.system.entities.length; i++){
 						allLoaded = allLoaded && game.system.entities[i].isLoaded;
@@ -96,15 +109,9 @@ Handles the drawing of the main UI
 					if(!allLoaded) {
 						break;
 					}
-
-					//clear ui
-					$(".ui").css({
-						"z-index": -1
-					});
-					this.score.css("z-index", this.LAYER_ID+1);
-					game.system.layermanager.clearLayer(this.LAYER_ID);
-					game.system.state = "running";
-					break;
+					this.score.css("z-index", this.LAYER_ID+1);	
+					game.system.state = this.state = "running";
+					break;					
 				default:
 					break;
 			}
@@ -161,6 +168,22 @@ Handles the drawing of the main UI
 						"left": "85%"
 					});					
 					break;
+				case "loading":
+					this.score.css("z-index", -1);	
+					this.layercontext.save();								
+					this.layercontext.translate(game.CANVAS_W/2, game.CANVAS_H/2);
+					this.layercontext.drawImage(this.loading_img,
+						this.frame_x[this.currentframe/this.anim_speed], 0,
+						this.loading_img.width, this.loading_img.height, 
+						-this.loading_img.width/2, -this.loading_img.height/2, 
+						this.loading_img.width, this.loading_img.height
+						);
+					this.layercontext.restore();
+					this.currentframe++;
+					if(this.currentframe == this.frame_x.length*this.anim_speed){
+						this.currentframe = 0;
+					}
+					break;
 				default:
 					break;
 			}
@@ -202,8 +225,6 @@ Handles the drawing of the main UI
 				game.system.enemies[i] = new game.Enemy("missile", game.system.layermanager);
 			}
 			
-			this.state = "running";
-			
 			if(game.system.num_players!=0 && game.system.num_enemies!=0){
 				//add all players and missiles to entities
 				game.system.entities.length = 0;
@@ -215,7 +236,16 @@ Handles the drawing of the main UI
 					game.system.entities[game.system.entities.length] = game.system.enemies[i];
 					game.system.enemies[i].state = "setup";
 				}
-			}
+			}			
+
+			//clear ui
+			$(".ui").css({
+				"z-index": -1
+			});
+			this.score.css("z-index", this.LAYER_ID+1);
+			game.system.layermanager.clearLayer(this.LAYER_ID);
+			this.state = "loading";
+			
 			event.preventDefault();
 			event.stopPropagation();
 			return false;
