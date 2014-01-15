@@ -88,6 +88,22 @@ Handles the drawing of the main UI
 					});
 					break;
 				case "running":
+					//check if images finish loading
+					var allLoaded = true;
+					for(var i=0; i<game.system.entities.length; i++){
+						allLoaded = allLoaded && game.system.entities[i].isLoaded;
+					}
+					if(!allLoaded) {
+						break;
+					}
+
+					//clear ui
+					$(".ui").css({
+						"z-index": -1
+					});
+					this.score.css("z-index", this.LAYER_ID+1);
+					game.system.layermanager.clearLayer(this.LAYER_ID);
+					game.system.state = "running";
 					break;
 				default:
 					break;
@@ -186,6 +202,8 @@ Handles the drawing of the main UI
 				game.system.enemies[i] = new game.Enemy("missile", game.system.layermanager);
 			}
 			
+			this.state = "running";
+			
 			if(game.system.num_players!=0 && game.system.num_enemies!=0){
 				//add all players and missiles to entities
 				game.system.entities.length = 0;
@@ -197,23 +215,6 @@ Handles the drawing of the main UI
 					game.system.entities[game.system.entities.length] = game.system.enemies[i];
 					game.system.enemies[i].state = "setup";
 				}
-				
-				//waits for images to load before starting
-				while(true){
-					var imgLoaded = true;
-					for(var i=0; i<game.system.entities.length; i++){
-						imgLoaded = game.system.entities[i].isLoaded && imgLoaded;
-					}
-					if(imgLoaded) break;
-				}
-				
-				//clear ui
-				$(".ui").css({
-					"z-index": -1
-				});
-				this.score.css("z-index", this.LAYER_ID+1);
-				game.system.layermanager.clearLayer(this.LAYER_ID);
-				game.system.state = this.state = "running";
 			}
 			event.preventDefault();
 			event.stopPropagation();
