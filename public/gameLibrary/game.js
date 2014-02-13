@@ -196,7 +196,7 @@ var System = function(updateFPS, containerID){
                 if(isGameOver){
                 	this.state = this.ui.state = "starting";
                 	var scoreObj = {name: this.ui.playername, score: this.score};
-                	console.log($.post("/highscores",scoreObj));
+                	$.post("/highscores",scoreObj);
                 }
 				break;
 			default:
