@@ -110,7 +110,7 @@ Handles the drawing of the main UI
 										});
 
 			this.loading_img = new Image();
-			this.loading_img.src = "media/loading.gif";	
+			this.loading_img.src = "media/loading.png";	
 			this.loading_img.width = this.loading_img.height = 128;
 			for(var i=0; i<19; i++){
 				this.frame_x[i] = i * this.loading_img.width;
