@@ -1,11 +1,17 @@
 var pg = require('pg');
 
 //connect to database
-var connectionString = "postgres://postgres:password@localhost:5432/microgame";
+var connectionString = process.env.DATABASE_URL || "postgres://postgres:password@localhost:5432/microgame";
 
 exports.getScores = function(req, res){
 	pg.connect(connectionString,function(err,client,done){
-		var query = client.query("SELECT * FROM high_score");
+		var start = parseInt(req.params.start);
+		var count = parseInt(req.params.count);
+		if(!isNaN(start) && !isNaN(count)){
+			var query = client.query("SELECT * FROM high_score ORDER BY score DESC LIMIT "+count+" OFFSET "+start);			
+		}else{
+			var query = client.query("SELECT * FROM high_score ORDER BY score DESC");
+		}
 		var rows = [];
 		
 		query.on('error', function(e){
@@ -45,9 +51,9 @@ exports.insertScore = function(req, res){
 	});
 };
 
-exports.deleteScore = function(req,res){
+exports.deleteScoreById = function(req,res){
 	var id = parseInt(req.params.id);
-	if(id == NaN){
+	if(isNaN(id)){
 		return res.json(400, {error: "Wrong format"});
 	}
 	pg.connect(connectionString, function(err,client,done){

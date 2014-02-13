@@ -193,8 +193,11 @@ var System = function(updateFPS, containerID){
                 for(var i=0; i<this.players.length; i++){
                 	isGameOver = isGameOver && !this.players[i].isActive;
                 }
-                if(isGameOver)
+                if(isGameOver){
                 	this.state = this.ui.state = "starting";
+                	var scoreObj = {name: this.ui.playername, score: this.score};
+                	console.log($.post("/highscores",scoreObj));
+                }
 				break;
 			default:
 				break;
@@ -247,16 +250,16 @@ var System = function(updateFPS, containerID){
 		}
 		switch(this.ui.selected_difficulty){
 			case "Easy":
-				this.score += playersActive;
+				this.score += Math.pow(playersActive,2);
 				break;
 			case "Medium":
-				this.score += 2*playersActive;
+				this.score += 2*Math.pow(playersActive,2);
 				break;
 			case "Hard":
-				this.score += 4*playersActive;
+				this.score += 4*Math.pow(playersActive,2);
 				break;
 			case "Insane":
-				this.score += 8*playersActive;
+				this.score += 8*Math.pow(playersActive,2);
 				break;
 		}
 	};

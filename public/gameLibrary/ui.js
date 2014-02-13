@@ -13,11 +13,15 @@ Handles the drawing of the main UI
 		
 		this.layercontext = null;
 		this.state = null;	//game state
+		this.playername = null;	//the player's name
 		this.score = null; //displays score during play time and high score otherwise
 		this.multiplier = null;	//number of planes
 		this.difficulty = null;	//determines amount of missiles at one point in time
 		this.play_button = null;	//starts game when clicked
-		this.instructions = null;	//displays instructions when clicked
+		this.instructions = null;	//displays instructions
+		this.score_menu = null;	//displays all-time high scores when clicked
+		this.displaying_score = false;
+		this.minimize_score_button = null;
 		this.img_src = ["media/plane1_top.png", "media/plane2_top.png", "media/plane3_top.png"];
 		this.images = [];
 		this.image_divs = [];
@@ -33,6 +37,17 @@ Handles the drawing of the main UI
 		this.init = function(getLayerContext, state){
 			this.layercontext = getLayerContext(this.LAYER_ID);
 			this.state = state;
+			$("#name").css({
+							"display": "block",
+							"z-index": this.LAYER_ID+1
+						});
+			$("#name>form").on({
+								submit: this.enter_name.bind(this)
+							});
+			$("#name>form>input").mouseup(function(event){
+				$(this).focus();
+			});
+			
 			this.score = $("#score").css({
 							"display": "block",
 							"z-index": this.LAYER_ID+1
@@ -83,6 +98,17 @@ Handles the drawing of the main UI
 									"z-index": this.LAYER_ID+1	
 								});
 								
+			this.score_menu = $("#all_scores").css({
+									"display": "block",
+									"z-index": this.LAYER_ID+1
+								}).on({
+									mouseup: this.show_scores.bind(this)
+								});
+								
+			this.minimize_score_button = $("#minimize").on({
+											mouseup: this.hide_scores.bind(this)
+										});
+
 			this.loading_img = new Image();
 			this.loading_img.src = "media/loading.gif";	
 			this.loading_img.width = this.loading_img.height = 128;
@@ -110,6 +136,7 @@ Handles the drawing of the main UI
 						break;
 					}
 					this.score.css("z-index", this.LAYER_ID+1);	
+					game.system.layermanager.clearLayer(this.LAYER_ID);					
 					game.system.state = this.state = "running";
 					break;					
 				default:
@@ -122,9 +149,9 @@ Handles the drawing of the main UI
 				case "starting":
 					this.score.html("High Score: "+game.system.highscore)
 					.css({
-						"background-color": "rgba(0,82,156, 0.8)",
-						"top": "25%",
-						"left": "30%"	
+						"background-color": "",
+						"top": "",
+						"left": ""	
 					});
 					
 					this.layercontext.fillRect(0,0,game.CANVAS_W,game.CANVAS_H);
@@ -282,6 +309,63 @@ Handles the drawing of the main UI
 				}
 			}
 			event.preventDefault();
+			event.stopPropagation();
+			return false;
+		};
+		
+		this.enter_name = function(event){
+			this.playername = $("#name>form>input").blur().val();
+			event.preventDefault();
+			return false;
+		};
+		
+		this.show_scores = function(event){
+			if(!this.displaying_score){
+				this.score_menu.css({
+					"height": "90%",
+					"width": "70%",
+					"left": "15%",
+					"background-color": "rgba(0,82,156,1.0)",
+					"padding-bottom": "10px"
+				});
+				
+				this.minimize_score_button.css({
+					"display": "inline"
+				});
+				
+				$.getJSON("/highscores", function(data){
+					var htmlStr = "<table style='width: 90%; text-align: left; margin-left: 20px'>";
+					//add table column headers
+					htmlStr += "<tr> <th style='width:80px'>Rank</th> <th>Name</th> <th>Score</th> </tr>";
+					for(var i=0; i<data.length; i++){
+						htmlStr +=	"<tr style='font-size:80%'> <td>" + (i+1) + "</td> <td>" + data[i].name + "</td> <td>" + data[i].score + "</td> </tr>";
+					}
+					htmlStr += "</table>";
+					
+					$("#score_table").html(htmlStr);
+				});				
+			}
+			this.displaying_score = true;
+			event.stopPropagation();
+			return false;
+		};
+		
+		this.hide_scores = function(event){
+			this.score_menu.css({
+				"height": "",
+				"width": "",
+				"left": "",
+				"background-color": "",
+				"padding-bottom": ""
+			}).removeAttr('p');
+			
+			this.minimize_score_button.css({
+				"display": ""
+			});
+			
+			$("#score_table").html("");
+			
+			this.displaying_score = false;
 			event.stopPropagation();
 			return false;
 		};

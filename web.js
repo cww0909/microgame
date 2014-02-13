@@ -8,8 +8,9 @@ app.use(express.bodyParser());
 app.use(express.static(__dirname+"/public",{index: "game.html"}));
 
 app.get('/highscores',scores.getScores);
+app.get('/highscores/:start/:count',scores.getScores);
 app.post('/highscores',scores.insertScore);
-app.delete('/highscores/:id',scores.deleteScore);
+app.delete('/highscores/:id',scores.deleteScoreById);
 
 //start server
 var port = process.env.PORT || 8888;
